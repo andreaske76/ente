@@ -1,0 +1,23 @@
+name: Sync Fork with ente-io/ente
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # Führt den Workflow täglich um 3:00 UTC aus
+  workflow_dispatch:      # Ermöglicht manuelles Starten über den "Actions"-Tab
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync fork with upstream repository
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.1
+        with:
+          # Dies ist der Branch in DEINEM Fork, der aktualisiert wird
+          target_sync_branch: main 
+          
+          # Dies ist das Upstream-Repo und Branch, von dem die Updates geholt werden
+          upstream_sync_repo: https://github.com/ente-io/ente.git
+          upstream_sync_branch: main
+          
+          # Dieses Token ist notwendig, damit die Action in deinen Fork schreiben kann
+          target_repo_token: ${{ secrets.GITHUB_TOKEN }}
