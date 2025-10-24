@@ -9,15 +9,20 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
+      # SCHRITT 1: Lade den Code deines Forks auf den Runner
+      - name: Checkout local fork
+        uses: actions/checkout@v4
+        with:
+          # Stellt sicher, dass der 'main'-Branch ausgecheckt wird
+          ref: main
+          # Holt die gesamte Git-Historie, was für den Sync wichtig ist
+          fetch-depth: 0
+
+      # SCHRITT 2: Führe die Synchronisierung mit dem Upstream-Repo durch
       - name: Sync fork with upstream repository
         uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.1
         with:
-          # Dies ist der Branch in DEINEM Fork, der aktualisiert wird
           target_sync_branch: main 
-          
-          # Dies ist das Upstream-Repo und Branch, von dem die Updates geholt werden
           upstream_sync_repo: https://github.com/ente-io/ente.git
           upstream_sync_branch: main
-          
-          # Dieses Token ist notwendig, damit die Action in deinen Fork schreiben kann
           target_repo_token: ${{ secrets.GITHUB_TOKEN }}
