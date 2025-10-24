@@ -2,8 +2,8 @@ name: Sync Fork with ente-io/ente
 
 on:
   schedule:
-    - cron: '0 3 * * *'  # Führt den Workflow täglich um 3:00 UTC aus
-  workflow_dispatch:      # Ermöglicht manuelles Starten über den "Actions"-Tab
+    - cron: '0 3 * * *'  
+  workflow_dispatch:      
 
 jobs:
   sync:
@@ -13,16 +13,17 @@ jobs:
       - name: Checkout local fork
         uses: actions/checkout@v4
         with:
-          # Stellt sicher, dass der 'main'-Branch ausgecheckt wird
           ref: main
-          # Holt die gesamte Git-Historie, was für den Sync wichtig ist
           fetch-depth: 0
 
-      # SCHRITT 2: Führe die Synchronisierung mit dem Upstream-Repo durch
+      # SCHRITT 2: Führe die Synchronisierung durch
       - name: Sync fork with upstream repository
         uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.1
         with:
           target_sync_branch: main 
-          upstream_sync_repo: https://github.com/ente-io/ente.git
+          
+          # KORREKTUR HIER: Gib nur "BENUTZER/REPO" an
+          upstream_sync_repo: ente-io/ente
+          
           upstream_sync_branch: main
           target_repo_token: ${{ secrets.GITHUB_TOKEN }}
